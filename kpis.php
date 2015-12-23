@@ -15,13 +15,13 @@
 	 * - assigned
 	 *   true, false or all.
 	 *
-	 * > closed_last_days
+	 * - closed_last_days
 	 *   <number> Consider only issues closed during these last days.
 	 *
-	 * > updated_last_days
+	 * - updated_last_days
 	 *   <number> Consider only issues updated during these last days.
 	 *
-	 * > opened_last_days
+	 * - opened_last_days
 	 *   <number> Consider only issues opened during these last days.
 	 */
 
