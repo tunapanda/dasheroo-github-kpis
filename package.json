@@ -1,0 +1,23 @@
+{
+  "name": "dasheroo-github-kpis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tunapanda/dasheroo-github-kpis.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tunapanda/dasheroo-github-kpis/issues"
+  },
+  "homepage": "https://github.com/tunapanda/dasheroo-github-kpis#readme",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-ftpuploadtask": "^0.1.2"
+  }
+}

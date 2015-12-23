@@ -353,7 +353,9 @@
 
 			<h2>About</h2>
 			<p>
-				This tool was developed by 
+				This tool is open source and lives on
+				<a href="https://github.com/tunapanda/dasheroo-github-kpis">GitHub</a>.
+				It was developed by 
 				<a href="http://www.tunapanda.org/">Tunapanda</a>,
 				an organisation spreading tech skills, developing open knowledge resources
 				and open source software in East Africa.
