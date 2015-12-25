@@ -5,6 +5,33 @@ html, body, input, select, option {
     font-size: 15px;
 }
 
+.footer {
+	padding: 20px;
+	background: #ddd;
+	box-shadow: inset 0 5px 5px -5px black;
+	min-height: 60px;
+	position: relative;
+}
+
+.footer-right {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+}
+
+.footer a {
+	color: #000000;
+}
+	
+.footer-img {
+	position: absolute;
+}
+
+.footer-info {
+	margin-left: 100px;
+	margin-right: 220px;
+}
+
 .header {
 	color: #ffffff;
 	background: #dd4814;
@@ -39,7 +66,7 @@ a {
 }
 
 a:active, a:hover {
-	text-decoration: bold;
+	text-decoration: underline;
 }
 
 .image {

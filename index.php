@@ -149,12 +149,12 @@
 				First, create a new insight in Dasheroo, and select <i>Custom</i> as
 				the app to use. Select <i>Single Stat with Histogram</i> as the sub-type.
 			</p>
-			<img class="image" src="dasheroo-create.png" style="width: 425px; height: 315px"/>
-			<img class="image" src="dasheroo-histogram.png" style="width: 424; height: 315px"/>
+			<img class="image" src="img/dasheroo-create.png" style="width: 425px; height: 315px"/>
+			<img class="image" src="img/dasheroo-histogram.png" style="width: 424; height: 315px"/>
 			<p>
 				Then, click on the settings button and locate the <i>Data URL</i> field.
 			</p>
-			<img class="image" src="dasheroo-configure.png" style="width: 275px; height: 294px"/>
+			<img class="image" src="img/dasheroo-configure.png" style="width: 275px; height: 294px"/>
 			<p>
 				This is where you input the URL that you construct using the tool below.
 			</p>
@@ -310,7 +310,7 @@
 			<h2>Examples</h2>
 			<p>
 				So what can you use this tool for? These are a few examples of KPIs that
-				can be useful for a development team. Obviousl, these are just examples,
+				can be useful for a development team. Obviously, these are just examples,
 				if you want to use them you will need to change the labels used to the
 				labels you use in your project.
 			</p>
@@ -355,11 +355,33 @@
 			<p>
 				This tool is open source and lives on
 				<a href="https://github.com/tunapanda/dasheroo-github-kpis">GitHub</a>.
-				It was developed by 
-				<a href="http://www.tunapanda.org/">Tunapanda</a>,
-				an organisation spreading tech skills, developing open knowledge resources
-				and open source software in East Africa.
 			</p>
+			<p>
+				It was developed by 
+				<a href="http://www.tunapanda.org/">Tunapanda Institute</a> as 
+				a response to our internal needs to measure and visualize 
+				software development KPIs.
+			</p>
+		</div>
+		<div class="footer">
+			<div class="footer-img">
+				<a href="http://www.tunapanda.org/">
+					<img src="img/cropped-tunapandalogo.png" style="width: 77px; height: 60px"/>
+				</a>
+			</div>
+			<div class="footer-info">
+				<a href="http://www.tunapanda.org/">Tunapanda Institute</a>
+				exists to spread dignity, respect, and freedom through 
+				learning for creative problem solving.
+				<a href="http://www.tunapanda.org/">Tunapanda Institute</a> builds skills in 
+				digital technology, collaboration, problem solving, and creative self-expression.
+				<a href="http://www.tunapanda.org/">Tunapanda Institute</a> was founded in
+				Kibera, Nairobi, Kenya, where it runs a centre for
+				education, development, and research.
+			</div>
+			<div class="footer-right">
+				<a href="https://co.clickandpledge.com/sp/d1/default.aspx?wid=93195" target="_blank"><img class="aligncenter" style="width: 210px; height: 34px; border: 1px solid #efefef;" title="Online donation system by ClickandPledge" src="https://s3.amazonaws.com/clickandpledge/Images/flair/buttons/210x34/CP_EN_GR_S_001.gif" alt="Online donation system by ClickandPledge" width="210" height="100" border="0" /></a>
+			</div>
 		</div>
 	</body>
 </html>
