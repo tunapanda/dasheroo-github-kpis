@@ -144,6 +144,11 @@
 				dashboard. 
 			</p>
 
+			<p>
+				It is 
+				<a href="https://github.com/tunapanda/dasheroo-github-kpis">open source</a>.
+			</p>
+
 			<h2>Setting up</h2>
 			<p>
 				First, create a new insight in Dasheroo, and select <i>Custom</i> as
