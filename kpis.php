@@ -44,6 +44,7 @@
 	$projectNames=explode(",",$_REQUEST["projects"]);
 	$issues=[];
 	foreach ($projectNames as $projectName) {
+		$projectName=trim($projectName);
 		$args=array();
 
 		if (isset($_REQUEST["labels"]))
