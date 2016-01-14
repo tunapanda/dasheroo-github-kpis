@@ -64,10 +64,15 @@
 		));
 
 		$doc=curl_exec($curl);
+		$code=curl_getinfo($curl,CURLINFO_HTTP_CODE);
+
 		$projectIssues=json_decode($doc,TRUE);
 
 		if ($projectIssues===NULL)
 			throw new Exception("Unable to parse json.");
+
+		if ($code!=200 || isset($projectIssues["message"]))
+			throw new Exception($projectIssues["message"]);
 
 		foreach ($projectIssues as $projectIssue)
 			$issues[]=$projectIssue;
@@ -121,11 +126,16 @@
 			$count++;
 	}
 
+	$label="Issues on GitHub";
+
+	if (isset($_REQUEST["label"]))
+		$label=$_REQUEST["label"];
+
 	$res=array(
 		"issues"=>array(
 			"type"=>"integer",
 			"value"=>$count,
-			"label"=>"Issues on github",
+			"label"=>$label,
 			"strategy"=>"continuous"
 		)
 	);

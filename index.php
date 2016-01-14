@@ -73,6 +73,9 @@
 		if ($_REQUEST["updated_last_days"])
 			$params["updated_last_days"]=$_REQUEST["updated_last_days"];
 
+		if ($_REQUEST["label"])
+			$params["label"]=$_REQUEST["label"];
+
 		$dataParams=array();
 		if (isset($params["projects"]) && $params["projects"])
 			$dataParams["projects"]=$params["projects"];
@@ -95,6 +98,9 @@
 		if (isset($params["updated_last_days"]) && $params["updated_last_days"])
 			$dataParams["updated_last_days"]=$params["updated_last_days"];
 
+		if (isset($params["label"]) && $params["label"])
+			$dataParams["label"]=$params["label"];
+
 		$dirUrl="http://".$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
 		$dataUrl=$dirUrl."/kpis.php?".http_build_query($dataParams);
 
@@ -104,8 +110,11 @@
 		$dataResponse=nl2br($dataResponse);
 	}
 
+	if (!isset($_REQUEST["label"]))
+		$_REQUEST["label"]="Issues on GitHub";
+
 	$acceptedParams=array(
-		"projects","labels","state","assigned",
+		"projects","label","labels","state","assigned",
 		"created_last_days","updated_last_days","closed_last_days"
 	);
 	foreach ($acceptedParams as $acceptedParam) {
@@ -184,6 +193,20 @@
 						<p>
 							Comma separated list of GitHub projects to consider. <br/>
 							E.g. tunapanda/dasheroo-github-kpis
+						</p>
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="form-label">
+						Insight Label
+					</div>
+					<div class="form-field-holder">
+						<input type="text" name="label"
+							value="<?php echo_attr($_REQUEST["label"]); ?>"
+						/>
+						<p>
+							This label will appear as a description for your insight in Dasheroo.
 						</p>
 					</div>
 				</div>
