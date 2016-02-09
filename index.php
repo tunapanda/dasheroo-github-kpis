@@ -4,12 +4,9 @@
 		echo htmlspecialchars($s);
 	}
 
-	function echo_option($value, $label, $requestKey, $requestArray=NULL) {
-		if (!$requestArray)
-			$requestArray=$_REQUEST;
-
+	function echo_option($value, $label, $current) {
 		$s="<option value='".htmlspecialchars($value)."'";
-		if ($requestArray[$requestKey]==$value)
+		if ($current==$value)
 			$s.=" selected";
 
 		$s.=">".htmlspecialchars($label)."</option>";
@@ -18,108 +15,82 @@
 	}
 
 	error_reporting(E_ALL);
+
+	$projects="";
+	$token="";
+	$label="Issues on GitHub";
+	$labels="";
+	$state="all";
+	$assigned="all";
+	$created_last_days="";
+	$updated_last_days="";
+	$closed_last_days="";
+
 	$isExample=FALSE;
 
 	if (isset($_REQUEST["showData"])) {
 		$isExample=TRUE;
 		switch ($_REQUEST["example"]) {
 			case "burndown":
-				$_REQUEST["labels"]="current-sprint";
-				$_REQUEST["state"]="open";
-				$_REQUEST["assigned"]="all";
-				$_REQUEST["created_last_days"]="";
-				$_REQUEST["updated_last_days"]="";
-				$_REQUEST["closed_last_days"]="";
+				$labels="current-sprint";
+				$state="open";
+				$assigned="all";
+				$created_last_days="";
+				$updated_last_days="";
+				$closed_last_days="";
 				break;
 
 			case "velocity":
-				$_REQUEST["labels"]="resolved";
-				$_REQUEST["state"]="closed";
-				$_REQUEST["assigned"]="all";
-				$_REQUEST["created_last_days"]="";
-				$_REQUEST["updated_last_days"]="";
-				$_REQUEST["closed_last_days"]="7";
+				$labels="resolved";
+				$state="closed";
+				$assigned="all";
+				$created_last_days="";
+				$updated_last_days="";
+				$closed_last_days="7";
 				break;
 
 			case "unassigned":
-				$_REQUEST["labels"]="";
-				$_REQUEST["state"]="open";
-				$_REQUEST["assigned"]="false";
-				$_REQUEST["created_last_days"]="";
-				$_REQUEST["updated_last_days"]="";
-				$_REQUEST["closed_last_days"]="";
+				$labels="";
+				$state="open";
+				$assigned="false";
+				$created_last_days="";
+				$updated_last_days="";
+				$closed_last_days="";
 				break;
 
 			default:
+				$labels=$_REQUEST["labels"];
+				$state=$_REQUEST["state"];
+				$assigned=$_REQUEST["assigned"];
+				$created_last_days=$_REQUEST["created_last_days"];
+				$updated_last_days=$_REQUEST["updated_last_days"];
+				$closed_last_days=$_REQUEST["closed_last_days"];
 				$isExample=FALSE;
 				break;
 		}
 
+		$label=$_REQUEST["label"];
+		$token=$_REQUEST["token"];
+		$projects=$_REQUEST["projects"];
+
 		$params=array();
-		$params["projects"]=$_REQUEST["projects"];
-
-		if ($_REQUEST["labels"])
-			$params["labels"]=$_REQUEST["labels"];
-
-		$params["state"]=$_REQUEST["state"];
-		$params["assigned"]=$_REQUEST["assigned"];
-
-		if ($_REQUEST["closed_last_days"])
-			$params["closed_last_days"]=$_REQUEST["closed_last_days"];
-
-		if ($_REQUEST["created_last_days"])
-			$params["created_last_days"]=$_REQUEST["created_last_days"];
-
-		if ($_REQUEST["updated_last_days"])
-			$params["updated_last_days"]=$_REQUEST["updated_last_days"];
-
-		if ($_REQUEST["label"])
-			$params["label"]=$_REQUEST["label"];
-
-		$dataParams=array();
-		if (isset($params["projects"]) && $params["projects"])
-			$dataParams["projects"]=$params["projects"];
-
-		if (isset($params["labels"]) && $params["labels"])
-			$dataParams["labels"]=$params["labels"];
-
-		if (isset($params["state"]) && $params["state"])
-			$dataParams["state"]=$params["state"];
-
-		if (isset($params["assigned"]) && $params["assigned"])
-			$dataParams["assigned"]=$params["assigned"];
-
-		if (isset($params["created_last_days"]) && $params["created_last_days"])
-			$dataParams["created_last_days"]=$params["created_last_days"];
-
-		if (isset($params["closed_last_days"]) && $params["closed_last_days"])
-			$dataParams["closed_last_days"]=$params["closed_last_days"];
-
-		if (isset($params["updated_last_days"]) && $params["updated_last_days"])
-			$dataParams["updated_last_days"]=$params["updated_last_days"];
-
-		if (isset($params["label"]) && $params["label"])
-			$dataParams["label"]=$params["label"];
+		$params["projects"]=$projects;
+		$params["token"]=$token;
+		$params["label"]=$label;
+		$params["labels"]=$labels;
+		$params["state"]=$state;
+		$params["assigned"]=$assigned;
+		$params["created_last_days"]=$created_last_days;
+		$params["updated_last_days"]=$updated_last_days;
+		$params["closed_last_days"]=$closed_last_days;
 
 		$dirUrl="http://".$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
-		$dataUrl=$dirUrl."/kpis.php?".http_build_query($dataParams);
+		$dataUrl=$dirUrl."/kpis.php?".http_build_query($params);
 
 		$curl=curl_init($dataUrl);
 		curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE);
 		$dataResponse=curl_exec($curl);
 		$dataResponse=nl2br($dataResponse);
-	}
-
-	if (!isset($_REQUEST["label"]))
-		$_REQUEST["label"]="Issues on GitHub";
-
-	$acceptedParams=array(
-		"projects","label","labels","state","assigned",
-		"created_last_days","updated_last_days","closed_last_days"
-	);
-	foreach ($acceptedParams as $acceptedParam) {
-		if (!isset($_REQUEST[$acceptedParam]))
-			$_REQUEST[$acceptedParam]="";
 	}
 
 	$thisLink="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -188,7 +159,7 @@
 					</div>
 					<div class="form-field-holder">
 						<input type="text" class="input" name="projects"
-							value="<?php echo_attr($_REQUEST["projects"]); ?>"
+							value="<?php echo_attr($projects); ?>"
 						/>
 						<p>
 							Comma separated list of GitHub projects to consider. <br/>
@@ -199,11 +170,27 @@
 
 				<div class="form-row">
 					<div class="form-label">
-						Insight Label
+						GitHub API token
+					</div>
+					<div class="form-field-holder">
+						<input type="text" class="input" name="token"
+							value="<?php echo_attr($token); ?>"
+						/>
+						<p>
+							API token used when communicating with GitHub.<br/>
+							Use this for private projects, get a token 
+							<a href="https://github.com/settings/tokens" target="_blank">here</a>.
+						</p>
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="form-label">
+						Insight label
 					</div>
 					<div class="form-field-holder">
 						<input type="text" name="label"
-							value="<?php echo_attr($_REQUEST["label"]); ?>"
+							value="<?php echo_attr($label); ?>"
 						/>
 						<p>
 							This label will appear as a description for your insight in Dasheroo.
@@ -217,7 +204,7 @@
 					</div>
 					<div class="form-field-holder">
 						<input type="text" name="labels"
-							value="<?php echo_attr($_REQUEST["labels"]); ?>"
+							value="<?php echo_attr($labels); ?>"
 						/>
 						<p>
 							Count issues with these labels. Comma separated.<br/>
@@ -232,9 +219,9 @@
 					</div>
 					<div class="form-field-holder">
 						<select name="state">
-							<?php echo_option("all","Count both open and closed issues","state"); ?>
-							<?php echo_option("open","Count only open issues","state"); ?>
-							<?php echo_option("closed","Count only closed issues","state"); ?>
+							<?php echo_option("all","Count both open and closed issues",$state); ?>
+							<?php echo_option("open","Count only open issues",$state); ?>
+							<?php echo_option("closed","Count only closed issues",$state); ?>
 						</select>
 						<p>
 							Which state should be considered?
@@ -248,9 +235,9 @@
 					</div>
 					<div class="form-field-holder">
 						<select name="assigned">
-							<?php echo_option("all","Count both assigned and unassigned issues","assigned"); ?>
-							<?php echo_option("false","Count only usassigned issues","assigned"); ?>
-							<?php echo_option("true","Count only assigned issues","assigned"); ?>
+							<?php echo_option("all","Count both assigned and unassigned issues",$assigned); ?>
+							<?php echo_option("false","Count only usassigned issues",$assigned); ?>
+							<?php echo_option("true","Count only assigned issues",$assigned); ?>
 						</select>
 						<p>
 							Count only assigned or unassigned issues? Or all issues?
@@ -264,7 +251,7 @@
 					</div>
 					<div class="form-field-holder">
 						<input type="text" name="created_last_days"
-							value="<?php echo_attr($_REQUEST["created_last_days"]); ?>"
+							value="<?php echo_attr($created_last_days); ?>"
 						/>
 						<p>
 							Count only issues which were created within this many days.<br/>
@@ -279,7 +266,7 @@
 					</div>
 					<div class="form-field-holder">
 						<input type="text" name="updated_last_days"
-							value="<?php echo_attr($_REQUEST["updated_last_days"]); ?>"
+							value="<?php echo_attr($updated_last_days); ?>"
 						/>
 						<p>
 							Count only issues which were updated within this many days.<br/>
@@ -294,7 +281,7 @@
 					</div>
 					<div class="form-field-holder">
 						<input type="text" name="closed_last_days"
-							value="<?php echo_attr($_REQUEST["closed_last_days"]); ?>"
+							value="<?php echo_attr($closed_last_days); ?>"
 						/>
 						<p>
 							Count only issues which were closed within this many days.<br/>

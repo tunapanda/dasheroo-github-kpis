@@ -57,7 +57,10 @@
 		$url.="?".http_build_query($args);
 
 		$curl=curl_init($url);
-		curl_setopt($curl,CURLOPT_USERPWD,file_get_contents(".githubuserpwd"));
+
+		if (isset($_REQUEST["token"]) && $_REQUEST["token"])
+			curl_setopt($curl,CURLOPT_USERPWD,$_REQUEST["token"]);
+
 		curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE);
 		curl_setopt($curl,CURLOPT_HTTPHEADER,array(
 			"User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36"
@@ -106,18 +109,18 @@
 
 		$now=time();
 
-		if (isset($_REQUEST["closed_last_days"])) {
+		if (isset($_REQUEST["closed_last_days"]) && $_REQUEST["closed_last_days"]) {
 			if (!$issue["closed_at"] ||
 					strtotime($issue["closed_at"])<$now-60*60*24*$_REQUEST["closed_last_days"])
 				$countThis=FALSE;
 		}
 
-		if (isset($_REQUEST["created_last_days"])) {
+		if (isset($_REQUEST["created_last_days"]) && $_REQUEST["created_last_days"]) {
 			if (strtotime($issue["created_at"])<$now-60*60*24*$_REQUEST["created_last_days"])
 				$countThis=FALSE;
 		}
 
-		if (isset($_REQUEST["updated_last_days"])) {
+		if (isset($_REQUEST["updated_last_days"]) && $_REQUEST["updated_last_days"]) {
 			if (strtotime($issue["updated_at"])<$now-60*60*24*$_REQUEST["updated_last_days"])
 				$countThis=FALSE;
 		}
